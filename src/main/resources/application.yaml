@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          predicates:
+            - Path=/auth/**
+          uri: http://localhost:8081
+  httpclient:
+    connect-timeout: 5000   # мс
+    response-timeout: 10s   # сек
+  filters:
+    - name: JwtHeaderFilter
+      args:
+        order: 1
+
+
+        # - Retry=5 - Повторяет запросы в случае неудачи
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key:
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQE # todo внести актуальный ключ
