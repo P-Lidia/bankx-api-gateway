@@ -11,6 +11,10 @@ import reactor.core.publisher.Mono;
 
 public class JwtHeaderFilter extends AbstractGatewayFilterFactory<Object> {
 
+    public static final String CLAIM_USER_ID = "userId";
+    public static final String HEADER_USER_ID = "X-User-Id";
+    public static final String HEADER_USER_ROLE = "X-User-Role";
+
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) ->
@@ -23,7 +27,7 @@ public class JwtHeaderFilter extends AbstractGatewayFilterFactory<Object> {
                             if (!(authentication instanceof JwtAuthenticationToken jwtAuth)) {
                                 return chain.filter(exchange);
                             }
-                            String userId = jwtAuth.getToken().getClaimAsString("userId");
+                            String userId = jwtAuth.getToken().getClaimAsString(CLAIM_USER_ID);
                             return Mono.justOrEmpty(authentication.getAuthorities().stream().findFirst())
                                     .map(Object::toString)
                                     .switchIfEmpty(Mono.error(new ResponseStatusException(
@@ -32,8 +36,8 @@ public class JwtHeaderFilter extends AbstractGatewayFilterFactory<Object> {
                                     // Добавляем заголовки
                                     .flatMap(role -> {
                                         exchange.getRequest().mutate()
-                                                .header("X-User-Id", userId)
-                                                .header("X-User-Role", role)
+                                                .header(HEADER_USER_ID, userId)
+                                                .header(HEADER_USER_ROLE, role)
                                                 .build();
                                         return chain.filter(exchange);
                                     });

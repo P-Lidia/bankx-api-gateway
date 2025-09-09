@@ -14,13 +14,15 @@ import java.util.Base64;
 @Configuration
 public class JwtDecoderConfig {
 
+    public static final String ALGORITHM_RSA = "RSA";
+
     @Bean
     public RSAPublicKey publicKey(
             @Value("${spring.security.oauth2.resourceserver.jwt.public-key:}") String key
     ) throws Exception {
         byte[] decoded = Base64.getDecoder().decode(key);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decoded);
-        KeyFactory kf = KeyFactory.getInstance("RSA");
+        KeyFactory kf = KeyFactory.getInstance(ALGORITHM_RSA);
         return (RSAPublicKey) kf.generatePublic(keySpec);
     }
 
