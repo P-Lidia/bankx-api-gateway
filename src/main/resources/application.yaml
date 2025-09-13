@@ -27,5 +27,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          public-key:
-            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQE # todo внести актуальный ключ
+          jwk-set-uri: http://auth-service:8081/.well-known/jwks.json
