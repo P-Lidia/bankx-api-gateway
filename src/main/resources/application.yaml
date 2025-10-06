@@ -11,7 +11,7 @@ spring:
             - id: auth-service
               predicates:
                 - Path=/auth/**
-              uri: http://localhost:8081
+              uri:  http://host.docker.internal:8081
   httpclient:
     connect-timeout: 5000   # мс
     response-timeout: 10s   # сек
@@ -27,4 +27,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://auth-service:8081/.well-known/jwks.json
+          public-key: |
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdLo2RALycceFY9islLK
+            iMj2MoS+JqL7lkmVboy91mqnXTKpEwYrEOLuNe+hYUyk/GENYwbyAyn2zusGZ2J8
+            TOiDk3yaiqzOY1h+eclFPayBP4On9QqAvjizCYQ2UJzFX4D2zlroJzHM4e2brJH2
+            yLO6dG/esEvdbJrnTjF6uc1vc1YQd1G+YgtWE6LgIF8q5Wv8nVmOpbSc1wZOHqnB
+            HIr3xor0zPmSHQ0frN/lop6apwb2TRI4/sCJoXuhUhd2Bg86aktisOPp0Cq13o5R
+            oiCUnbd4b6QlId8DWkDIWWyAlsCsrESW8IicAF+hEhmnn/5veBK31gYCwGGbGoe8
+            WwIDAQAB
